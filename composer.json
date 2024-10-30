@@ -1,0 +1,42 @@
+{
+  "autoload": {
+    "psr-4": {
+      "ITFB\\": [
+        "src/"
+      ]
+    }
+  },
+  "require": {
+    "php": ">=7.4",
+    "deliciousbrains/wp-background-processing": "^1.3",
+    "woocommerce/action-scheduler": "^3.8"
+  },
+  "require-dev": {
+    "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+    "wp-coding-standards/wpcs": "^3.1.0",
+    "php-parallel-lint/php-parallel-lint": "^1.4.0",
+    "phpcsstandards/phpcsutils": "^1.0.11",
+    "phpcsstandards/phpcsextra": "^1.2.1",
+    "phpcompatibility/php-compatibility": "^9.3",
+    "wp-cli/i18n-command": "^2.2.5"
+  },
+  "scripts": {
+    "lint:wpcs": "@php ./vendor/squizlabs/php_codesniffer/bin/phpcs --warning-severity=0",
+    "lint:php": "@php ./vendor/bin/parallel-lint --exclude .git --exclude vendor .",
+    "make-pot": "wp i18n make-pot . languages/_s.pot",
+    "post-install-cmd": [
+        "echo \"#!/bin/sh\ncomposer lint:php\ncomposer lint:wpcs\" > .git/hooks/pre-commit",
+        "chmod +x .git/hooks/pre-commit",
+        "composer dump-autoload"
+    ],
+    "post-update-cmd": [
+      "composer dump-autoload"
+    ],
+    "package": "cd .. && zip -r integration-toolkit-for-beehiiv.zip integration-toolkit-for-beehiiv -x 'integration-toolkit-for-beehiiv/.git/*' -x 'integration-toolkit-for-beehiiv/.gitignore' -x 'integration-toolkit-for-beehiiv/.github/*' -x 'integration-toolkit-for-beehiiv/composer.lock' -x 'integration-toolkit-for-beehiiv/*.md' -x 'integration-toolkit-for-beehiiv/.npmrc' -x 'integration-toolkit-for-beehiiv/*.phpcs.xml*' -x 'integration-toolkit-for-beehiiv/phpcs.xml.dist' -x 'integration-toolkit-for-beehiiv/.DS_Store'"
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
+  }
+}
